@@ -16,8 +16,7 @@ jobs:
             const pr = await github.pulls.get({
               ...context.repo,jjjjjjjjjjjjjjjjjjjjjjjjjj
               pull_number: context.issue.number
-            });   
-            const commits = await github.pulls.listCommits({
+            });                     s({
               ...context.repo,
               pull_number: context.issue.number
             });
