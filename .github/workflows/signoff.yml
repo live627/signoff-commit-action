@@ -9,7 +9,7 @@ jobs:
     env:
       FORCE_COLOR: 1
     runs-on: ubuntu-latest
-    steps:
+    steps:              
       - uses: actions/github-script@v4
         with:
           script: |
