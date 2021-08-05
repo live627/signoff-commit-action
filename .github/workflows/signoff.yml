@@ -52,7 +52,7 @@ jobs:
             ```
             ';
             const commitLines = commits.data
-                .filter(item => !/^Signed-off-by: (.*) <(.*)>$/im.test(item.commit.message))
+                .filter(item => /^Signed-off-by: (.*) <(.*)>$/im.test(item.commit.message))
                 .map(item => `- ${item.sha.slice(0, 6)}: ${item.commit.message}`)
 
             core.info("\u001B[32m✔\u001B[39mBranch: \u001B[1;32m" + pr.data.head.ref);
