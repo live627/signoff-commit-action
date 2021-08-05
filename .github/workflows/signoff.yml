@@ -17,7 +17,7 @@ jobs:
               ...context.repo,jjjjjjjjjjjjjjjjjjjjjjjjjj
               pull_number: context.issue.number
             });                     s({
-              ...context.repo,nbnbb mbnnnnnmb
+              ...context.repo,nbnbb mbnnnnnmbmn v,m, 
               pull_number: context.issue.number
             });
             const header = `@${context.payload.comment.user.login}, the `signed-off-by` was not found in these commits:`
