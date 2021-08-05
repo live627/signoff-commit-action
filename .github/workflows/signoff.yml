@@ -22,7 +22,7 @@ jobs:
               pull_number: context.issue.number
             });
             const header = `@${context.payload.comment.user.login}, the `signed-off-by` was not found in these commits:`
-            const footer = `#### What should I do to fix it ?
+            const footer = '#### What should I do to fix it ?
             All proposed commits should include a sign-off in their messages, ideally at the end.
             #### Why it is required
             The Developer Certificate of Origin (DCO) is a lightweight way for contributors to certify that they wrote or otherwise have the right to submit the code they are contributing to the project. Here is the full [text of the DCO](https://developercertificate.org/), reformatted for readability:
@@ -49,7 +49,8 @@ jobs:
 
             ```
             $ git commit -s -m 'This is my commit message'
-            ````;
+            ```
+            ';
             const commitLines = commits.data
                 .filter(item => !/^Signed-off-by: (.*) <(.*)>$/im.test(item.commit.message))
                 .map(item => `- ${item.sha.slice(0, 6)}: ${item.commit.message}`)
