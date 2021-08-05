@@ -24,4 +24,3 @@ jobs:
                 pull_number: context.issue.number
             });
             core.info("\u001B[32m✔\u001B[39mBranch: \u001B[1;32m" + pr.data.head.ref);
-            core.info(`\u001B[32m✔\u001B[39mFound: \u001B[1;32m${commits.length} \u001B[39m commits`);
