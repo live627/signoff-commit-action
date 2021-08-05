@@ -61,7 +61,7 @@ jobs:
             await github.pulls.listCommits({
               ...context.repo,
               issue_number: context.issue.number,
-              body: header+'\n\n'+commitLines.join('\n')+''\n\n+footer
+              body: header+'\n\n'+commitLines.join('\n')+'\n\n+footer
             });
             if (commitLines.length > 0)
             {
