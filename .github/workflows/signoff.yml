@@ -1,54 +1,69 @@
-on: issue_comment
+name: Find signed commits
+
+on:
+  pull_request_target:
 
 jobs:
-  build:
+  remove-label:
+    name: Write comment if unsigned commits found
+    env:
+      FORCE_COLOR: 1
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@0.3.0
-        if: github.event.action == 'created'
+      - uses: actions/github-script@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const isValidSignOff = (
-              context.payload.action === 'created' &&
-              context.payload.issue.pull_request &&
-              context.payload.comment.user.id === context.payload.issue.user.id &&
-              context.payload.comment.body === '/signoff'
-            )
-
-            if (!isValidSignOff) return
-
             const pr = await github.pulls.get({
               ...context.repo,
-              pull_number: context.payload.issue.number
-            })
-
+              pull_number: context.issue.number
+            });
             const commits = await github.pulls.listCommits({
               ...context.repo,
-              pull_number: context.payload.issue.number
-            })
+              pull_number: context.issue.number
+            });
+            const header = `@${context.payload.comment.user.login}, the `signed-off-by` was not found in these commits:`
+            const footer = `#### What should I do to fix it ?
+All proposed commits should include a sign-off in their messages, ideally at the end.
+#### Why it is required
+The Developer Certificate of Origin (DCO) is a lightweight way for contributors to certify that they wrote or otherwise have the right to submit the code they are contributing to the project. Here is the full [text of the DCO](https://developercertificate.org/), reformatted for readability:
 
-            const baseCommit = await github.git.getCommit({
-              ...context.repo,
-              commit_sha: pr.data.head.sha
-            })
+> By making a contribution to this project, I certify that:
+>
+> a. The contribution was created in whole or in part by me and I have the right to submit it under the open source license indicated in the file; or
+>
+> b. The contribution is based upon previous work that, to the best of my knowledge, is covered under an appropriate open source license and I have the right under that license to submit that work with modifications, whether created in whole or in part by me, under the same open source license (unless I am permitted to submit under a different license), as indicated in the file; or
+>
+> c. The contribution was provided directly to me by some other person who certified (a), (b) or (c) and I have not modified it.
+>
+> d. I understand and agree that this project and the contribution are public and that a record of the contribution (including all personal information I submit with it, including my sign-off) is maintained indefinitely and may be redistributed consistent with this project or the open source license(s) involved.
 
-            const tree = await github.git.getTree({
-              ...context.repo,
-              tree_sha: baseCommit.data.tree.sha
-            })
+Contributors _sign-off_ that they adhere to these requirements by adding a `Signed-off-by` line to commit messages.
 
-            const commitLines = commits.data.map(item => `- ${item.sha.slice(0, 6)}: ${item.commit.message}`).join('\n')
-            const header = `I, @${context.payload.comment.user.login}, hereby signoff on these commits:`
-            const newCommit = await github.git.createCommit({
-              ...context.repo,
-              message: `${header}\n\n${commitLines}`,
-              tree: tree.data.sha,
-              parents: [pr.data.head.sha]
-            })
+```
+This is my commit message
 
-            await github.git.updateRef({
+Signed-off-by: Random Developer <randomdeveloper@example.com>
+```
+
+Git even has a `-s` command line option to append this automatically to your commit message:
+
+```
+$ git commit -s -m 'This is my commit message'
+````;
+            const commitLines = commits.data
+                .filter(item => !/^Signed-off-by: (.*) <(.*)>$/im.test(item.commit.message))
+                .map(item => `- ${item.sha.slice(0, 6)}: ${item.commit.message}`)
+
+            core.info("\u001B[32m✔\u001B[39mBranch: \u001B[1;32m" + pr.data.head.ref);
+            core.info(`\u001B[32m✔\u001B[39mFound: \u001B[1;32m${commits.length} \u001B[39m commits`);
+            commits.data.forEach(item => core.info(`\u001B[32m✔\u001B[36m ${item.sha.slice(0, 6)}\u001B[39m: \u001B[90m${item.commit.message}`)
+            await github.pulls.listCommits({
               ...context.repo,
-              ref: `heads/${pr.data.head.ref}`,
-              sha: newCommit.data.sha
-            })
+              issue_number: context.issue.number,
+              body: `${header}\n\n${commitLines.join('\n');}\n\n${footer}`
+            });
+            if (commitLines.length > 0)
+            {
+                core.info(`\u001B[31m✖\u001B[39mFound: \u001B[1;31m${commitLines.length} \u001B[39m commits`);
+                commitLines.forEach(item => core.info(`\u001B[31✖✔\u001B[36m ${item.sha.slice(0, 6)}\u001B[39m: \u001B[90m${item.commit.message}`);
+            }
