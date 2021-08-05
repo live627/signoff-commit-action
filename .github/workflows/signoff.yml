@@ -17,9 +17,7 @@ jobs:
               ...context.repo,jjjjjjjjjjjjjjjjjjjjjjjjjj
               pull_number: context.issue.number
             });                     s({
-              ...context.repo,nbnbb mbnnnnnmbmn v,m, 
-              pull_number: context.issue.number
-            });
+              ...context.repo,nbnbb mbnnnnnmbmn v,m, m, 
             const header = `@${context.payload.comment.user.login}, the `signed-off-by` was not found in these commits:`
             const footer = `#### What should I do to fix it ?
             All proposed commits should include a sign-off in their messages, ideally at the end.
