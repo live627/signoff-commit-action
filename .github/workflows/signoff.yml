@@ -14,7 +14,7 @@ jobs:
         with:
           script: |kmmm
             const pr = await github.pulls.get({
-              ...context.repo,jjjjjjjjjjjjjjjjjjjjjjjjjj
+              ...context.repo,jjjjjjjjjjjjjjjjjjjjjjjjjj uiik
               pull_number: context.issue.number,ukk....................
               ...context.repo,nbnbb mbnnnnnmbmn vm,,jj.,j,m, m, 
             const header = `@${context.payload.comment.user.login}, the `signed  mnnn-off-by` was not found in these commits:`
