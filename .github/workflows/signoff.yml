@@ -25,17 +25,17 @@ jobs:
             const commitLines = commits.data.filter(item => !/Signed-off-by: (.*) <(.*)>/i.test(item.commit.message)).map(item => item.sha);
             const header = '@'+JSON.stringify(pr.data.user)+' the `signed-off-by` was not found in the following '+commitLines.length+' commits:';
 
-            core.info("\u001B[32m✔\u001B[39mBranch: \u001B[1;32m" + pr.data.head.ref);
-            core.info(`\u001B[32m✔\u001B[39mFound: \u001B[1;32m${commits.data.length} \u001B[39m commits`);
-            commits.data.forEach(item => core.info(`\u001B[1;36;40m ${item.sha.slice(0, 6)}\u001B[39m: \u001B[90m${item.commit.message.split('\n', 1)[0]}`))
+            core.info("\u001B[32m✔\u001B[39m Branch: \u001B[1;32m" + pr.data.head.ref);
+            core.info(`\u001B[32m✔\u001B[39m Found: \u001B[1;32m${commits.data.length}\u001B[21;39m commits`);
+            commits.data.forEach(item => core.info(`\u001B[1;36;100m ${item.sha.slice(0, 6)}\u001B[39m: \u001B[21;36m${item.commit.message.split('\n', 1)[0]}`))
             await github.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
-              body: header+'\n\n'+commits.data.filter(commitLines.includes).map(item => `- ${item.html_url}: ${item.commit.message.split('\n', 1)[0]}`).join('\n')+'\n\n'+footer
+              body: header+'\n\n'+commits.data.filter(item => commitLines.includes(item.sha)).map(item => `- ${item.html_url}: ${item.commit.message.split('\n', 1)[0]}`).join('\n')+'\n\n'+footer
             });
             if (commitLines.length > 0)
             {
-                core.info(`\n\u001B[31m✖\u001B[39mFound: \u001B[1;31m${commitLines.length} \u001B[39m commits`);
+                core.info(`\n\u001B[31m✖\u001B[39m Found: \u001B[1;31m${commitLines.length}\u001B[21;39m commits`);
                 core.warning(`\n\u001B[31m✖\u001B[39mFound: \u001B[1;31m${commitLines.length} \u001B[39m commits`);
-                commits.data.filter(commitLines.includes).forEach(item => core.info(`\u001B[1;36;40m ${item[0].slice(0, 6)}\u001B[39m: \u001B[90m${item.commit.message.split('\n', 1)[0]} `));
+                commits.data.filter(item => commitLines.includes(item.sha)).forEach(item => core.info(`\u001B[1;35;100m ${item[0].slice(0, 6)}\u001B[39m: \u001B[36m${item.commit.message.split('\n', 1)[0]} `));
             }
