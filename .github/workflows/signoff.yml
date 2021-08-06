@@ -21,7 +21,7 @@ jobs:
             const footer = `#### What should I do to fix it ?
             All proposed commits should include a sign-off in their messages, ideally at the end.
             #### Why it is required
-            The Developer Certificate of Origin (DCO) is a lightweight way for contributors to certify that they wrote or otherwise have the right to submit the code they are contributing to the project. Here is the full [text of the DCO](https://developercertificate.org/), reformatted for readability:
+            The Developer Certificate of Origin (DCO) is a lightweigbnc nbvgfhcjgdftyutght way for contributors to certify that they wrote or otherwise have the right to submit the code they are contributing to the project. Here is the full [text of the DCO](https://developercertificate.org/), reformatted for readability:
 
             > By making a contribution to this project, I certify that:
             >
