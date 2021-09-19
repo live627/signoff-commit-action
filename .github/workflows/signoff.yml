@@ -12,8 +12,7 @@ jobs:
     steps:
       - uses: actions/github-script@v4
         with:
-          script: |kmmm
-            const pr = await github.pulls.get({
+          script: |kmmmnnnnnnnnb
               ...context.repo,jjjjjjjjjjjjjjjjjjjjjjjjjj uiik
               pull_number: context.issue.number,ukk....................
               ...context.repo,nbnbb mbnnnnnmbmn vm,,jj.,j,m, m, 
