@@ -12,4 +12,4 @@ jobs:
         with:
           hostname: simplemachines.org
           path: /
-          upfile: REAADME.md
+          upfile: README.md
