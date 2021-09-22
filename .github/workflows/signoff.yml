@@ -1,8 +1,7 @@
 name: Find signed commits
 
 on:
-  push: 
- 
+  push:  
 jobs:          
   remove-label:
     runs-on: ubuntu-latest
