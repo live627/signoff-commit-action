@@ -3,7 +3,7 @@ name: Find signed commits
 on:
   push:
 
-jobs:        
+jobs:          
   remove-label:
     runs-on: ubuntu-latest
     steps:
