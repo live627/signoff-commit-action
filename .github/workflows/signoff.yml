@@ -1,13 +1,14 @@
 name: Find signed commits
 
 on:
-  pull_request_target:
+  push:
 
 jobs:
   remove-label:
-    name: Write comment if unsigned commits found
-    env:
-      FORCE_COLOR: 1
     runs-on: ubuntu-latest
     steps:
-      - uses: live627/upload-release-asset@main
+      - uses: live627/upload-file-action@master
+        with:
+          hostname: simplemachines.org
+          path: /
+          upfile: REAADME.md
