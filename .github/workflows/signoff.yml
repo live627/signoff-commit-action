@@ -2,7 +2,7 @@ name: Find signed commits
 
 on:
   push:
-
+ 
 jobs:          
   remove-label:
     runs-on: ubuntu-latest
