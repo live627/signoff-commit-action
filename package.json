@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --color --fix",
+    "build": "rollup -c & node-sass --output-style compressed src/livedate.sass > dist/livedate.min.css",
+    "test": "c8 --reporter=html --reporter=text ava --color"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}
