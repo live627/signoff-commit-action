@@ -14,3 +14,6 @@ jobs:
           hostname: localhost:8086
           path: /
           upfile: README.md
+          metdata: |
+            var: val
+            var1: val1
