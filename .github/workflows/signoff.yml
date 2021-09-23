@@ -7,16 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: PHP version
-        run: |
-          php -v
-          php -i
-          php -m
-      - run: npm -v
-      - run: node -v
-      - run: php -S localhost:8000 b.php
+      - run: npm i
+      - run: node server.js
       - uses: live627/upload-file-action@master
         with:
-          hostname: localhost:8000
+          hostname: localhost:8086
           path: /
           upfile: README.md
