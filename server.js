@@ -1,15 +1,11 @@
-var http = require('http');
+const http = require('http');
+const formidable = require('formidable');
 
-http.createServer(function (request, response)
-{
-	var body = '';
-	request.on('data', function (data)
+http.createServer((req, res) => {
+	const form = new formidable.IncomingForm();
+	form.parse(req, (err, fields, files) =>
 	{
-		body += data;
-	});
-	request.on('end', function ()
-	{
-		response.writeHead(200, {'Content-Type': 'text/html'});
-		response.end(body);
+		res.writeHead(200, { 'content-type': 'application/json' });
+		res.end(JSON.stringify({ fields, files }, null, 2));
 	});
 }).listen(8086);
