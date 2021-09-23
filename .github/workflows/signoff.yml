@@ -11,8 +11,7 @@ jobs:
       - run: node server.js & sleep 1
       - uses: live627/upload-file-action@master
         with:
-          hostname: localhost:8086
-          path: /
+          url: http://localhost:8086/
           upfile: README.md
           metadata: |
             var: val
